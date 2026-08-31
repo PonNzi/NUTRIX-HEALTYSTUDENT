@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NUTRIX</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#070b10;
+--card:#0f141b;
+--neon:#00ffae;
+--cyan:#00eaff;
+--text:#ffffff;
+--muted:#9aa4b2;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Inter;background:var(--bg);color:var(--text);overflow-x:hidden}
+h1,h2,h3{font-family:Rajdhani}
+section{padding:90px 20px}
+
+nav{
+position:fixed;top:0;width:100%;
+display:flex;justify-content:space-between;
+padding:12px 20px;
+background:rgba(0,0,0,.6);
+backdrop-filter:blur(8px);
+z-index:999
+}
+nav a{color:var(--muted);margin:0 10px}
+nav a:hover{color:var(--neon)}
+
+.hero{
+display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+min-height:100vh
+}
+.hero h1{font-size:70px;color:var(--neon)}
+.hero p{color:var(--muted);max-width:500px;margin:15px 0}
+.btn{
+border:1px solid var(--neon);
+padding:10px 20px;
+color:var(--neon);
+margin-right:10px;
+transition:.3s
+}
+.btn:hover{background:var(--neon);color:#000}
+
+.art{
+width:320px;height:320px;
+border:1px solid var(--neon);
+display:flex;align-items:center;justify-content:center;
+position:relative;
+}
+.art::after{
+content:"";
+position:absolute;inset:0;
+background:repeating-linear-gradient(transparent,transparent 2px,rgba(0,255,174,0.05) 3px);
+pointer-events:none
+}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+
+.card{
+background:var(--card);
+border:1px solid #ffffff10;
+padding:20px;
+transition:.3s;
+cursor:pointer;
+position:relative
+}
+.card:hover{
+border-color:var(--neon);
+transform:translateY(-5px)
+}
+.card .detail{display:none;margin-top:10px;color:var(--muted);font-size:14px}
+
+.flow{
+display:flex;flex-wrap:wrap;gap:10px;align-items:center
+}
+.flow div{
+padding:10px 15px;border:1px solid var(--cyan);font-size:14px
+}
+
+.checklist label{display:block;margin:5px 0}
+.progress{margin-top:10px;color:var(--neon)}
+
+.kaih span{
+display:inline-block;margin:5px;padding:10px;border:1px solid #fff2
+}
+.highlight{border-color:var(--neon);color:var(--neon)}
+
+.footer{text-align:center;padding:60px 20px;color:var(--muted)}
+
+.fade{opacity:0;transform:translateY(20px);transition:.6s}
+.fade.show{opacity:1;transform:none}
+</style>
+</head>
+
+<body>
+
+<nav>
+<div>NUTRIX</div>
+<div>
+<a href="#isi">Isi</a>
+<a href="#masalah">Masalah</a>
+<a href="#solusi">Solusi</a>
+</div>
+</nav>
+
+<section class="hero">
+<div>
+<h1>NUTRIX</h1>
+<h3>MAKAN SEHAT</h3>
+<p>Makanan bergizi itu bukan gaya hidup mahal. Itu basic biar lu gak letoy tiap hari.</p>
+<a href="#isi" class="btn">Mulai</a>
+<a href="#cek" class="btn">Cek</a>
+</div>
+<div class="art">ARTWORK</div>
+</section>
+
+<section id="isi" class="fade">
+<h2>ISI PIRING</h2>
+<div class="grid">
+<div class="card">Karbo<br><small>Nasi, kentang</small></div>
+<div class="card">Protein<br><small>Telur, ayam</small></div>
+<div class="card">Sayur & Buah</div>
+<div class="card">Air Putih</div>
+</div>
+</section>
+
+<section id="masalah" class="fade">
+<h2>MASALAH</h2>
+<div class="grid">
+<div class="card">Skip sarapan
+<div class="detail">Penyebab: males. Dampak: lemes. Solusi: makan simpel.</div>
+</div>
+<div class="card">Minuman manis
+<div class="detail">Penyebab: kebiasaan. Dampak: gula naik. Solusi: air putih.</div>
+</div>
+</div>
+</section>
+
+<section class="fade">
+<h2>FLOW 7 KAIH</h2>
+<div class="flow">
+<div>MASALAH</div>
+<div>AKAR</div>
+<div>DAMPAK</div>
+<div>SOLUSI</div>
+<div>AKSI</div>
+</div>
+</section>
+
+<section id="solusi" class="fade">
+<h2>MISSION</h2>
+<div class="grid">
+<div class="card">Sarapan</div>
+<div class="card">Air putih</div>
+<div class="card">Sayur</div>
+<div class="card">Protein</div>
+</div>
+</section>
+
+<section id="cek" class="fade">
+<h2>CHECK</h2>
+<div class="checklist">
+<label><input type="checkbox"> Karbo</label>
+<label><input type="checkbox"> Protein</label>
+<label><input type="checkbox"> Sayur</label>
+<label><input type="checkbox"> Buah</label>
+<label><input type="checkbox"> Air</label>
+</div>
+<div class="progress" id="progress"></div>
+</section>
+
+<section class="kaih fade">
+<h2>7 KAIH</h2>
+<span>🌅</span>
+<span>🤲</span>
+<span>🏃</span>
+<span class="highlight">🍽️</span>
+<span>📚</span>
+<span>🤝</span>
+<span>🌙</span>
+</section>
+
+<section class="footer fade">
+<h2>Kesehatan dibentuk dari kebiasaan kecil.</h2>
+<p>XI-E9 • SMAN 2 Banjarmasin</p>
+</section>
+
+<script>
+document.querySelectorAll('.card').forEach(c=>{
+c.onclick=()=>{
+let d=c.querySelector('.detail');
+if(d)d.style.display=d.style.display==='block'?'none':'block'
+}
+})
+
+let checks=document.querySelectorAll("input");
+let prog=document.getElementById("progress");
+
+checks.forEach(c=>{
+c.onchange=()=>{
+let total=checks.length;
+let checked=[...checks].filter(x=>x.checked).length;
+prog.innerText=checked+"/"+total+" done";
+}
+})
+
+let observer=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting)e.target.classList.add("show")
+})
+})
+
+document.querySelectorAll(".fade").forEach(el=>observer.observe(el))
+</script>
+
+</body>
+</html>
