@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07100d">
+  <meta name="description" content="NUTRIX — Makanan Sehat dan Bergizi | Proyek 7 KAIH XI-E9 SMA Negeri 2 Banjarmasin">
+  <title>NUTRIX — Makanan Sehat dan Bergizi</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#050908;
+      --bg2:#09110f;
+      --panel:#0c1512;
+      --panel2:#101b18;
+      --line:rgba(155,255,196,.16);
+      --line2:rgba(90,246,204,.28);
+      --green:#8cffb0;
+      --green2:#36e887;
+      --cyan:#51e8ff;
+      --white:#f3fff8;
+      --muted:#91a49b;
+      --danger:#ff6f7d;
+      --yellow:#ffd86b;
+      --shadow:0 18px 55px rgba(0,0,0,.42);
+      --radius:20px;
+      --max:1180px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--white);
+      background:
+        radial-gradient(circle at 85% 8%, rgba(52,232,135,.09), transparent 24rem),
+        radial-gradient(circle at 8% 35%, rgba(81,232,255,.055), transparent 22rem),
+        linear-gradient(180deg,#040706 0%,#07100d 50%,#050908 100%);
+      font-family:Inter,system-ui,sans-serif;
+      overflow-x:hidden;
+    }
+    body:before{
+      content:"";
+      position:fixed; inset:0; pointer-events:none; z-index:999;
+      opacity:.035;
+      background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,white 4px,transparent 5px);
+    }
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    ::selection{background:var(--green);color:#06100a}
+
+    .boot{
+      position:fixed; inset:0; z-index:9999;
+      display:grid; place-items:center;
+      background:#030605;
+      transition:opacity .55s ease, visibility .55s ease;
+    }
+    .boot.hide{opacity:0;visibility:hidden}
+    .boot-box{width:min(520px,88vw)}
+    .boot-top{display:flex;justify-content:space-between;font:700 12px Rajdhani;letter-spacing:2px;color:var(--green)}
+    .boot-bar{height:4px;background:#14231d;margin-top:14px;overflow:hidden}
+    .boot-bar i{display:block;height:100%;width:0;background:var(--green);box-shadow:0 0 18px var(--green);animation:boot 1.25s forwards}
+    @keyframes boot{to{width:100%}}
+
+    .nav{
+      position:fixed;top:0;left:0;right:0;z-index:1000;
+      background:rgba(4,8,7,.76);backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(140,255,176,.12);
+    }
+    .nav-inner{max-width:var(--max);margin:auto;height:72px;display:flex;align-items:center;gap:24px;padding:0 22px}
+    .brand{display:flex;align-items:center;gap:10px;font:700 25px Rajdhani;letter-spacing:3px;white-space:nowrap}
+    .brand-mark{width:29px;height:29px;border:2px solid var(--green);display:grid;place-items:center;transform:skew(-10deg);box-shadow:0 0 18px rgba(140,255,176,.22)}
+    .brand-mark:after{content:"+";font:700 19px Rajdhani;transform:skew(10deg)}
+    .nav-links{margin-left:auto;display:flex;gap:6px;align-items:center}
+    .nav-links a{
+      padding:9px 12px;color:#a9bbb3;font:600 12px Rajdhani;letter-spacing:1px;text-transform:uppercase;
+      border:1px solid transparent;border-radius:8px;transition:.25s;
+    }
+    .nav-links a:hover,.nav-links a.active{color:var(--green);border-color:var(--line2);background:rgba(140,255,176,.045)}
+    .nav-toggle{display:none;margin-left:auto;background:none;border:1px solid var(--line);color:var(--green);padding:8px 11px;border-radius:8px}
+
+    .wrap{max-width:var(--max);margin:auto;padding:0 22px}
+    .hero{min-height:100vh;display:grid;align-items:center;padding-top:100px;position:relative}
+    .hero-grid{display:grid;grid-template-columns:1.04fr .96fr;gap:40px;align-items:center}
+    .eyebrow{display:flex;align-items:center;gap:9px;color:var(--green);font:700 12px Rajdhani;letter-spacing:2px;text-transform:uppercase}
+    .eyebrow:before{content:"";width:35px;height:2px;background:var(--green);box-shadow:0 0 12px var(--green)}
+    .hero h1{
+      margin:15px 0 2px;font:700 clamp(70px,11vw,142px)/.8 Rajdhani;
+      letter-spacing:5px;text-transform:uppercase;
+      text-shadow:0 0 38px rgba(140,255,176,.1);
+    }
+    .hero-title{font:700 clamp(30px,5vw,62px)/1 Rajdhani;letter-spacing:3px;color:var(--green);margin:16px 0 22px}
+    .hero p{max-width:690px;color:#b7c7c0;line-height:1.8;font-size:15px}
+    .hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin:25px 0}
+    .tag{border:1px solid var(--line2);background:rgba(140,255,176,.045);padding:7px 11px;border-radius:5px;color:#d4e6dd;font:600 11px Rajdhani;letter-spacing:1px}
+    .actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:25px}
+    .btn{
+      border:1px solid var(--green2);background:var(--green2);color:#031008;
+      padding:13px 18px;border-radius:8px;font:700 12px Rajdhani;letter-spacing:1.3px;text-transform:uppercase;
+      cursor:pointer;transition:.25s;box-shadow:0 0 22px rgba(54,232,135,.14);
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(54,232,135,.25)}
+    .btn.ghost{background:transparent;color:var(--green);border-color:var(--line2);box-shadow:none}
+
+    .hero-art{
+      min-height:520px;position:relative;border:1px solid var(--line);border-radius:26px;overflow:hidden;
+      background:
+        radial-gradient(circle at 68% 38%,rgba(81,232,255,.12),transparent 15rem),
+        radial-gradient(circle at 35% 55%,rgba(140,255,176,.13),transparent 17rem),
+        linear-gradient(135deg,#0b1512,#07100e 70%);
+      box-shadow:var(--shadow);
+    }
+    .hero-art:before,.hud-panel:before{
+      content:"";position:absolute;inset:12px;border:1px solid rgba(140,255,176,.08);border-radius:16px;pointer-events:none;
+    }
+    .corner{position:absolute;width:42px;height:42px;border-color:var(--green);opacity:.8}
+    .corner.tl{top:17px;left:17px;border-top:2px solid;border-left:2px solid}
+    .corner.tr{top:17px;right:17px;border-top:2px solid;border-right:2px solid}
+    .corner.bl{bottom:17px;left:17px;border-bottom:2px solid;border-left:2px solid}
+    .corner.br{bottom:17px;right:17px;border-bottom:2px solid;border-right:2px solid}
+    .scan{position:absolute;left:0;right:0;height:1px;top:15%;background:rgba(140,255,176,.3);box-shadow:0 0 12px var(--green);animation:scan 4s linear infinite}
+    @keyframes scan{0%{top:12%}50%{top:88%}100%{top:12%}}
+    .art-label{position:absolute;top:31px;left:34px;font:700 10px Rajdhani;letter-spacing:2px;color:#799188}
+    .art-label b{color:var(--green)}
+    .agent{
+      position:absolute;bottom:0;width:49%;height:86%;
+    }
+    .agent.left{left:3%}.agent.right{right:2%}
+    .agent .head{position:absolute;top:11%;left:36%;width:90px;height:105px;border-radius:45% 45% 42% 42%;background:linear-gradient(145deg,#273d35,#101916);border:1px solid rgba(140,255,176,.32);box-shadow:0 0 45px rgba(140,255,176,.12)}
+    .agent.right .head{background:linear-gradient(145deg,#20343b,#0c1618);border-color:rgba(81,232,255,.4)}
+    .agent .visor{position:absolute;top:40%;left:29%;width:150px;height:26px;transform:skew(-18deg);border-top:2px solid var(--green);border-bottom:1px solid rgba(140,255,176,.25);box-shadow:0 0 20px rgba(140,255,176,.25)}
+    .agent.right .visor{border-color:var(--cyan);box-shadow:0 0 20px rgba(81,232,255,.25)}
+    .agent .body{position:absolute;bottom:-6%;left:13%;width:74%;height:64%;clip-path:polygon(26% 0,74% 0,100% 100%,0 100%);background:linear-gradient(160deg,#172a22,#09110e);border:1px solid rgba(140,255,176,.2)}
+    .agent.right .body{background:linear-gradient(160deg,#16272c,#091012);border-color:rgba(81,232,255,.2)}
+    .agent .arm{position:absolute;bottom:23%;width:24px;height:220px;background:#101c18;border:1px solid rgba(140,255,176,.18);transform:rotate(17deg);border-radius:15px}
+    .agent .arm.a{left:18%}.agent .arm.b{right:15%;transform:rotate(-28deg)}
+    .agent.right .arm{background:#0e1a1d;border-color:rgba(81,232,255,.18)}
+    .agent.right .arm.a{transform:rotate(27deg)}
+    .blade{position:absolute;width:7px;height:150px;background:linear-gradient(var(--cyan),transparent);box-shadow:0 0 14px var(--cyan);transform:rotate(37deg);right:8%;top:32%;border-radius:5px}
+    .dagger{position:absolute;width:7px;height:125px;background:linear-gradient(var(--green),transparent);box-shadow:0 0 14px var(--green);transform:rotate(-37deg);left:9%;top:36%;border-radius:5px}
+    .agent-name{position:absolute;bottom:25px;left:28px;font:700 30px Rajdhani;letter-spacing:3px}
+    .agent-role{position:absolute;bottom:15px;left:31px;font:600 9px Rajdhani;letter-spacing:2px;color:#7d958b}
+    .agent.right .agent-name{color:var(--cyan)}
+    .art-side{position:absolute;right:25px;top:90px;display:grid;gap:8px;text-align:right}
+    .stat-mini{font:700 9px Rajdhani;letter-spacing:1px;color:#6f847b}
+    .stat-mini strong{display:block;color:var(--white);font-size:15px}
+
+    section{padding:100px 0;position:relative}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:35px}
+    .kicker{color:var(--green);font:700 11px Rajdhani;letter-spacing:2px;text-transform:uppercase}
+    h2{font:700 clamp(35px,5vw,60px)/.95 Rajdhani;letter-spacing:2px;margin:8px 0 0;text-transform:uppercase}
+    .section-head p{max-width:430px;color:var(--muted);line-height:1.7;font-size:13px;margin:0}
+
+    .hud-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .card{
+      position:relative;background:linear-gradient(150deg,rgba(16,28,24,.96),rgba(8,15,13,.96));
+      border:1px solid var(--line);border-radius:var(--radius);padding:23px;overflow:hidden;
+      box-shadow:0 10px 35px rgba(0,0,0,.18);transition:.28s;
+    }
+    .card:hover{transform:translateY(-5px);border-color:rgba(140,255,176,.34);box-shadow:0 15px 45px rgba(0,0,0,.3),0 0 25px rgba(54,232,135,.05)}
+    .card:after{content:"";position:absolute;right:-30px;top:-30px;width:100px;height:100px;border:1px solid rgba(140,255,176,.07);transform:rotate(45deg)}
+    .icon{width:45px;height:45px;display:grid;place-items:center;border:1px solid var(--line2);border-radius:10px;font-size:21px;background:rgba(140,255,176,.045);margin-bottom:18px}
+    .card h3{font:700 22px Rajdhani;margin:0 0 8px;letter-spacing:1px}
+    .card p{font-size:12.5px;line-height:1.65;color:var(--muted);margin:0}
+    .example{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);color:#c7d8d0;font-size:11px}
+    .example b{color:var(--green)}
+
+    .plate-wrap{display:grid;grid-template-columns:.75fr 1.25fr;gap:20px;align-items:stretch}
+    .plate{
+      min-height:430px;display:grid;place-items:center;position:relative;
+      border:1px solid var(--line);border-radius:24px;background:
+      radial-gradient(circle,rgba(140,255,176,.08),transparent 55%),
+      #09110f;
+    }
+    .plate-circle{width:280px;height:280px;border:10px solid rgba(230,242,235,.7);border-radius:50%;position:relative;box-shadow:0 0 35px rgba(140,255,176,.1)}
+    .plate-q{position:absolute;width:50%;height:50%;border:2px solid #0a120f}
+    .plate-q.q1{top:0;left:0;background:#5cbd67;border-radius:100% 0 0 0}
+    .plate-q.q2{top:0;right:0;background:#e95a55;border-radius:0 100% 0 0}
+    .plate-q.q3{bottom:0;left:0;background:#efc74c;border-radius:0 0 0 100%}
+    .plate-q.q4{bottom:0;right:0;background:#b88958;border-radius:0 0 100% 0}
+    .plate-center{position:absolute;inset:35%;border-radius:50%;background:#e9f2ed;border:4px solid #07100d;display:grid;place-items:center;color:#07100d;font:700 11px Rajdhani;text-align:center}
+    .water{position:absolute;right:18%;bottom:20%;font-size:46px;filter:drop-shadow(0 0 12px rgba(81,232,255,.25))}
+    .plate-note{position:absolute;bottom:20px;left:25px;right:25px;text-align:center;color:#71857c;font:600 10px Rajdhani;letter-spacing:1px}
+    .balance-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .balance{display:flex;gap:15px;align-items:flex-start;padding:20px;border:1px solid var(--line);border-radius:17px;background:#0b1411}
+    .balance .num{font:700 27px Rajdhani;color:var(--green)}
+    .balance h3{font:700 20px Rajdhani;margin:0 0 5px}
+    .balance p{font-size:12px;line-height:1.6;color:var(--muted);margin:0}
+
+    .problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .problem{
+      text-align:left;cursor:pointer;min-height:205px;color:var(--white);
+      appearance:none;
+    }
+    .problem .code{font:700 10px Rajdhani;color:var(--green);letter-spacing:2px}
+    .problem h3{margin-top:28px}
+    .problem .tap{margin-top:20px;color:#61736b;font:600 10px Rajdhani;letter-spacing:1.5px}
+    .problem:hover .tap{color:var(--green)}
+    .modal{position:fixed;inset:0;z-index:2000;display:none;place-items:center;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);padding:20px}
+    .modal.show{display:grid}
+    .modal-box{width:min(620px,100%);position:relative;background:#09120f;border:1px solid var(--line2);border-radius:20px;padding:30px;box-shadow:0 25px 80px rgba(0,0,0,.55)}
+    .close{position:absolute;right:16px;top:16px;border:1px solid var(--line);background:none;color:var(--green);border-radius:7px;padding:7px 10px;cursor:pointer}
+    .modal-code{font:700 11px Rajdhani;color:var(--cyan);letter-spacing:2px}
+    .modal-box h3{font:700 34px Rajdhani;margin:7px 0 22px}
+    .solution-list{display:grid;gap:12px}
+    .solution-row{border-left:2px solid var(--green);padding:10px 13px;background:rgba(140,255,176,.035)}
+    .solution-row b{display:block;font:700 11px Rajdhani;letter-spacing:1px;color:var(--green);margin-bottom:5px}
+    .solution-row span{font-size:12.5px;color:#b5c6be;line-height:1.55}
+
+    .mission{
+      display:grid;grid-template-columns:1fr 1.35fr;gap:20px;align-items:stretch
+    }
+    .mission-board{padding:28px;border:1px solid var(--line);border-radius:22px;background:#0a130f}
+    .mission-board .mission-id{font:700 11px Rajdhani;color:var(--green);letter-spacing:2px}
+    .mission-board h3{font:700 37px Rajdhani;margin:15px 0 8px}
+    .mission-board p{color:var(--muted);font-size:12px;line-height:1.7}
+    .progress-line{height:5px;background:#18251f;margin:24px 0 8px}
+    .progress-line i{display:block;width:78%;height:100%;background:var(--green);box-shadow:0 0 13px rgba(140,255,176,.3)}
+    .objectives{display:grid;gap:10px}
+    .objective{display:flex;gap:15px;align-items:center;padding:15px 17px;border:1px solid var(--line);border-radius:13px;background:#0b1512}
+    .objective .check{width:28px;height:28px;display:grid;place-items:center;border:1px solid var(--line2);color:var(--green);font:700 14px Rajdhani}
+    .objective b{display:block;font:700 16px Rajdhani;letter-spacing:.7px}
+    .objective span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+
+    .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:stretch}
+    .flow-step{position:relative;padding:25px 15px 20px;border:1px solid var(--line);border-radius:15px;background:#0b1411;min-height:160px}
+    .flow-step:not(:last-child):after{content:"›";position:absolute;right:-12px;top:50%;transform:translateY(-50%);z-index:2;color:var(--green);font:700 27px Rajdhani}
+    .flow-no{font:700 10px Rajdhani;color:var(--green);letter-spacing:1px}
+    .flow-step h3{font:700 21px Rajdhani;margin:22px 0 7px}
+    .flow-step p{font-size:10.5px;line-height:1.5;color:var(--muted);margin:0}
+
+    .root-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:25px}
+    .root{
+      min-height:150px;padding:15px;border:1px solid var(--line);border-radius:13px;background:#0a130f;
+      transition:.25s;cursor:default
+    }
+    .root:hover{border-color:rgba(140,255,176,.34);transform:translateY(-3px)}
+    .root .rnum{font:700 10px Rajdhani;color:var(--cyan);letter-spacing:1px}
+    .root .emoji{font-size:24px;margin:16px 0 8px}
+    .root b{font:700 15px Rajdhani}
+    .root p{font-size:10px;color:var(--muted);line-height:1.45;margin:5px 0 0}
+
+    .people-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .people-card{min-height:270px}
+    .people-card .role{font:700 10px Rajdhani;color:var(--cyan);letter-spacing:2px}
+    .people-card h3{font-size:25px;margin:12px 0}
+    .people-card ul{padding-left:17px;margin:0;color:var(--muted);font-size:11.5px;line-height:1.7}
+
+    .check-layout{display:grid;grid-template-columns:.7fr 1.3fr;gap:20px}
+    .status{
+      position:relative;border:1px solid var(--line);border-radius:22px;padding:28px;background:
+      radial-gradient(circle at 70% 20%,rgba(140,255,176,.12),transparent 12rem),#0a130f;
+    }
+    .status .tiny{font:700 10px Rajdhani;letter-spacing:2px;color:var(--green)}
+    .count{font:700 85px/.85 Rajdhani;margin:25px 0 8px}
+    .count small{font-size:28px;color:#6d8077}
+    .status p{color:var(--muted);font-size:12px;line-height:1.6}
+    .meter{height:7px;background:#17241e;border-radius:99px;overflow:hidden;margin-top:22px}
+    .meter i{display:block;height:100%;width:0;background:var(--green);box-shadow:0 0 14px rgba(140,255,176,.3);transition:.4s}
+    .checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .check-item{
+      display:flex;gap:12px;align-items:flex-start;padding:17px;border:1px solid var(--line);border-radius:14px;
+      background:#0b1512;cursor:pointer;transition:.2s
+    }
+    .check-item:hover{border-color:var(--line2)}
+    .check-item input{display:none}
+    .fake-check{flex:0 0 22px;width:22px;height:22px;border:1px solid #587067;border-radius:5px;display:grid;place-items:center;color:transparent;font-weight:800;transition:.2s}
+    .check-item input:checked + .fake-check{background:var(--green2);border-color:var(--green2);color:#041008}
+    .check-item span:last-child{font-size:11.5px;line-height:1.5;color:#b7c8c0}
+
+    .kaih-wrap{border:1px solid var(--line);border-radius:25px;padding:25px;background:#09120f}
+    .kaih-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+    .kaih{
+      min-height:170px;padding:17px 11px;border:1px solid var(--line);border-radius:14px;background:#0b1512;
+      display:flex;flex-direction:column;justify-content:space-between;text-align:center;position:relative
+    }
+    .kaih.active{border-color:var(--green2);background:rgba(140,255,176,.065);box-shadow:0 0 28px rgba(54,232,135,.07)}
+    .kaih .num{font:700 10px Rajdhani;color:#62776e;letter-spacing:1px}
+    .kaih .kicon{font-size:27px}
+    .kaih b{font:700 15px Rajdhani;letter-spacing:.4px}
+    .kaih span{font-size:9px;color:var(--muted);line-height:1.4}
+    .kaih.active b,.kaih.active .num{color:var(--green)}
+
+    .interview{
+      display:grid;grid-template-columns:1.2fr .8fr;gap:20px
+    }
+    .quote-board{border:1px solid var(--line);border-radius:22px;padding:30px;background:#0a130f}
+    .quote-mark{font:700 75px/0.7 Rajdhani;color:var(--green);opacity:.5}
+    .quote-board blockquote{margin:15px 0 20px;font:600 21px/1.45 Rajdhani;color:#dce9e3}
+    .source{font:700 10px Rajdhani;color:var(--cyan);letter-spacing:1.5px}
+    .insights{display:grid;gap:10px}
+    .insight{padding:18px;border:1px solid var(--line);border-radius:15px;background:#0b1512}
+    .insight b{font:700 17px Rajdhani;color:var(--green)}
+    .insight p{font-size:11px;line-height:1.55;color:var(--muted);margin:5px 0 0}
+
+    .action-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+    .action{min-height:220px;padding:20px;border:1px solid var(--line);border-radius:16px;background:#0a130f}
+    .action .num{font:700 10px Rajdhani;color:var(--green);letter-spacing:2px}
+    .action .aicon{font-size:27px;margin:22px 0 12px}
+    .action h3{font:700 18px Rajdhani;margin:0 0 7px}
+    .action p{font-size:10.5px;color:var(--muted);line-height:1.55;margin:0}
+
+    .final{
+      padding:110px 0 70px;text-align:center;position:relative;overflow:hidden
+    }
+    .final:before{content:"";position:absolute;left:50%;top:30px;transform:translateX(-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(140,255,176,.11),transparent 65%);pointer-events:none}
+    .final .kicker{position:relative}
+    .final h2{position:relative;font-size:clamp(45px,7vw,85px);max-width:900px;margin:25px auto;letter-spacing:3px}
+    .final p{position:relative;max-width:680px;margin:0 auto;color:#a9bbb3;line-height:1.8;font-size:14px}
+    .final .mini{position:relative;margin-top:30px;font:700 11px Rajdhani;letter-spacing:2px;color:var(--green)}
+
+    footer{border-top:1px solid var(--line);padding:25px 0;color:#65776f;font:600 10px Rajdhani;letter-spacing:1px}
+    .footer-inner{display:flex;justify-content:space-between;gap:15px}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+    .reveal.visible{opacity:1;transform:none}
+    .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line2),transparent);margin-top:15px}
+
+    @media(max-width:1000px){
+      .hero-grid,.plate-wrap,.mission,.check-layout,.interview{grid-template-columns:1fr}
+      .hud-grid{grid-template-columns:repeat(2,1fr)}
+      .people-grid{grid-template-columns:repeat(2,1fr)}
+      .root-grid{grid-template-columns:repeat(4,1fr)}
+      .action-grid{grid-template-columns:repeat(3,1fr)}
+      .kaih-grid{grid-template-columns:repeat(4,1fr)}
+      .hero-art{min-height:500px}
+    }
+    @media(max-width:720px){
+      .nav-inner{height:64px}
+      .nav-links{display:none;position:absolute;top:64px;left:12px;right:12px;padding:10px;background:#07100e;border:1px solid var(--line);border-radius:12px;flex-direction:column;align-items:stretch}
+      .nav-links.open{display:flex}
+      .nav-links a{text-align:center}
+      .nav-toggle{display:block}
+      .wrap{padding:0 15px}
+      section{padding:75px 0}
+      .hero{padding-top:90px}
+      .hero h1{font-size:78px}
+      .hero-title{font-size:37px}
+      .section-head{display:block}
+      .section-head p{margin-top:14px}
+      .hud-grid,.problem-grid,.people-grid,.balance-grid,.checklist{grid-template-columns:1fr}
+      .hero-art{min-height:410px}
+      .agent{height:78%;width:55%}
+      .agent.left{left:-5%}.agent.right{right:-5%}
+      .agent .head{width:65px;height:80px}
+      .agent .visor{width:105px}
+      .agent .arm{height:160px}
+      .agent-name{font-size:20px;left:18px}
+      .agent-role{left:20px}
+      .art-side{right:17px;top:62px}
+      .plate{min-height:360px}
+      .plate-circle{width:220px;height:220px}
+      .water{right:8%;bottom:18%}
+      .flow{grid-template-columns:1fr}
+      .flow-step:not(:last-child):after{content:"↓";right:50%;top:auto;bottom:-18px;transform:translateX(50%)}
+      .root-grid{grid-template-columns:repeat(2,1fr)}
+      .action-grid{grid-template-columns:1fr 1fr}
+      .kaih-grid{grid-template-columns:repeat(2,1fr)}
+      .kaih:last-child{grid-column:span 2}
+      .count{font-size:70px}
+      .footer-inner{flex-direction:column;text-align:center}
+    }
+    @media(max-width:430px){
+      .action-grid{grid-template-columns:1fr}
+      .kaih:last-child{grid-column:auto}
+      .hero-art{min-height:380px}
+      .art-label{left:22px}
+      .agent-name{font-size:18px}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="boot" id="boot">
+    <div class="boot-box">
+      <div class="boot-top"><span>NUTRIX SYSTEM</span><span>INITIALIZING...</span></div>
+      <div class="boot-bar"><i></i></div>
+    </div>
+  </div>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#home" aria-label="NUTRIX">
+        <span class="brand-mark"></span>NUTRIX
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Buka menu">MENU</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="#piring">Isi Piring</a>
+        <a href="#masalah">Masalah</a>
+        <a href="#akar">7 KAIH</a>
+        <a href="#solusi">Solusi</a>
+        <a href="#check">Checklist</a>
+        <a href="#aksi">Aksi</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero wrap">
+      <div class="hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">SCHOOL PROJECT // 7 KAIH</div>
+          <h1>NUTRIX</h1>
+          <div class="hero-title">MAKAN SEHAT.</div>
+          <p>
+            Memilih makanan bukan hanya soal kenyang. Makanan yang beragam, bergizi, aman,
+            dan sesuai kebutuhan membantu Anda menjaga kesehatan serta mendukung aktivitas
+            belajar dan kehidupan sehari-hari.
+          </p>
+          <div class="hero-meta">
+            <span class="tag">XI-E9</span>
+            <span class="tag">SMA NEGERI 2 BANJARMASIN</span>
+            <span class="tag">MAKANAN SEHAT &amp; BERGIZI</span>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#piring">Mulai Membaca</a>
+            <a class="btn ghost" href="#check">Cek Kebiasaan</a>
+          </div>
+        </div>
+
+        <div class="hero-art reveal" aria-label="Area artwork HUD bertema game">
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="scan"></span>
+          <div class="art-label">TACTICAL HEALTH DISPLAY // <b>ACTIVE</b></div>
+          <div class="art-side">
+            <div class="stat-mini">STATUS<strong>READY</strong></div>
+            <div class="stat-mini">FOCUS<strong>+ ENERGY</strong></div>
+            <div class="stat-mini">MISSION<strong>HEALTH</strong></div>
+          </div>
+
+          <!-- Siluet karakter dibuat sebagai artwork HUD orisinal, bukan gambar resmi karakter. -->
+          <div class="agent left">
+            <div class="head"></div><div class="visor"></div>
+            <div class="body"></div><div class="arm a"></div><div class="arm b"></div>
+            <div class="dagger"></div>
+            <div class="agent-name">GUSION</div><div class="agent-role">MOBILE LEGENDS // ASSASSIN</div>
+          </div>
+          <div class="agent right">
+            <div class="head"></div><div class="visor"></div>
+            <div class="body"></div><div class="arm a"></div><div class="arm b"></div>
+            <div class="blade"></div>
+            <div class="agent-name">JETT</div><div class="agent-role">VALORANT // DUELIST</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="piring">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <div class="kicker">01 // LOADOUT MAKANAN</div>
+            <h2>Kenali Isi Piring Anda</h2>
+          </div>
+          <p>Seperti loadout yang seimbang, pola makan juga membutuhkan keberagaman. Tidak ada satu makanan yang memenuhi semua kebutuhan gizi.</p>
+        </div>
+
+        <div class="plate-wrap">
+          <div class="plate reveal">
+            <div class="plate-circle">
+              <div class="plate-q q1"></div>
+              <div class="plate-q q2"></div>
+              <div class="plate-q q3"></div>
+              <div class="plate-q q4"></div>
+              <div class="plate-center">ISI<br>PIRING</div>
+            </div>
+            <div class="water">💧</div>
+            <div class="plate-note">VISUAL DARI LEMBAR DISKUSI: ½ SAYUR + BUAH • ¼ LAUK-PAUK • ¼ MAKANAN POKOK • AIR PUTIH</div>
+          </div>
+
+          <div class="balance-grid">
+            <article class="balance reveal">
+              <div class="num">01</div>
+              <div><h3>Karbohidrat</h3><p>Sumber energi untuk membantu tubuh beraktivitas dan belajar.</p><div class="example"><b>Contoh:</b> nasi, jagung, kentang, ubi, dan serealia.</div></div>
+            </article>
+            <article class="balance reveal">
+              <div class="num">02</div>
+              <div><h3>Protein</h3><p>Mendukung pertumbuhan serta pemeliharaan jaringan tubuh.</p><div class="example"><b>Contoh:</b> telur, ikan, ayam, tahu, tempe, kacang-kacangan.</div></div>
+            </article>
+            <article class="balance reveal">
+              <div class="num">03</div>
+              <div><h3>Sayur &amp; Buah</h3><p>Menyumbang vitamin, mineral, serat, serta membuat pilihan makanan lebih beragam.</p><div class="example"><b>Target visual:</b> sayur dan buah mengambil porsi besar dalam panduan lembar diskusi.</div></div>
+            </article>
+            <article class="balance reveal">
+              <div class="num">04</div>
+              <div><h3>Air Putih</h3><p>Membantu menjaga keseimbangan cairan tubuh dan mendukung aktivitas sehari-hari.</p><div class="example"><b>Catatan lembar:</b> 6–8 gelas/hari sebagai panduan umum; kebutuhan tiap orang dapat berbeda.</div></div>
+            </article>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="card reveal" style="margin-top:18px">
+          <div class="icon">⚖️</div>
+          <h3>Kebutuhan Tidak Selalu Sama</h3>
+          <p>Usia, aktivitas, kondisi tubuh, lingkungan, dan kebiasaan harian dapat memengaruhi kebutuhan seseorang. Fokusnya bukan mengejar angka sempurna, tetapi membangun pola makan yang beragam, seimbang, aman, dan realistis.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="masalah">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <div class="kicker">02 // COMMON ISSUES</div>
+            <h2>Masalah yang Sering Dialami Remaja</h2>
+          </div>
+          <p>Kartu di bawah dapat dibuka. Tidak ada penghakiman—tujuannya memahami penyebab dan mencari langkah kecil yang bisa dilakukan.</p>
+        </div>
+
+        <div class="problem-grid">
+          <button class="card problem reveal" data-title="Sering melewatkan sarapan" data-cause="Bangun terburu-buru, jadwal padat, belum terbiasa menyiapkan makanan sejak malam." data-impact="Tubuh bisa terasa kurang siap beraktivitas dan konsentrasi dapat terganggu pada sebagian orang." data-solution="Siapkan pilihan sederhana seperti nasi + telur, roti + telur, atau buah dan sumber protein. Jika waktu sangat terbatas, rencanakan menu praktis sebelumnya.">
+            <span class="code">ISSUE 01</span><h3>Sering melewatkan sarapan</h3><div class="tap">↗ BUKA ANALISIS</div>
+          </button>
+          <button class="card problem reveal" data-title="Terlalu sering minuman manis" data-cause="Rasa manis mudah disukai, tersedia di banyak tempat, dan dipengaruhi kebiasaan atau tren." data-impact="Jika terlalu sering, asupan gula dapat meningkat dan pilihan minuman menjadi kurang beragam." data-solution="Jadikan air putih pilihan utama. Minuman manis tidak harus selalu dihindari, tetapi frekuensi dan porsinya dapat diperhatikan.">
+            <span class="code">ISSUE 02</span><h3>Terlalu sering minuman manis</h3><div class="tap">↗ BUKA ANALISIS</div>
+          </button>
+          <button class="card problem reveal" data-title="Kurang makan sayur dan buah" data-cause="Pilihan di kantin terbatas, rasa kurang cocok, atau belum terbiasa memasukkannya ke menu." data-impact="Pola makan dapat menjadi kurang beragam dan asupan serat serta beberapa vitamin/mineral bisa kurang." data-solution="Tambahkan satu jenis sayur atau buah yang paling mudah diterima. Naikkan variasinya secara bertahap.">
+            <span class="code">ISSUE 03</span><h3>Kurang makan sayur &amp; buah</h3><div class="tap">↗ BUKA ANALISIS</div>
+          </button>
+          <button class="card problem reveal" data-title="Uang saku terbatas" data-cause="Pilihan makanan bergizi kadang dianggap lebih mahal, sementara anggaran harian terbatas." data-impact="Siswa dapat lebih sering memilih makanan berdasarkan harga semata." data-solution="Pilih kombinasi sederhana yang terjangkau: makanan pokok + protein seperti telur/tahu/tempe + sayur, serta air putih. Tidak harus membeli makanan mahal.">
+            <span class="code">ISSUE 04</span><h3>Uang saku terbatas</h3><div class="tap">↗ BUKA ANALISIS</div>
+          </button>
+          <button class="card problem reveal" data-title="Pengaruh teman & tren makanan" data-cause="Pilihan teman, media sosial, promosi, dan tren dapat membuat suatu makanan terasa lebih menarik." data-impact="Pilihan makan bisa lebih banyak didorong tren daripada kebutuhan dan keberagaman." data-solution="Gunakan tren sebagai inspirasi, tetapi tetap cek komposisi, kebersihan, keamanan, porsi, dan frekuensi.">
+            <span class="code">ISSUE 05</span><h3>Pengaruh teman &amp; tren</h3><div class="tap">↗ BUKA ANALISIS</div>
+          </button>
+          <button class="card problem reveal" data-title="Kurang memahami informasi gizi" data-cause="Materi gizi terasa teoritis, label sulit dipahami, atau edukasi belum terhubung dengan pilihan makan sehari-hari." data-impact="Siswa bisa kesulitan membandingkan pilihan makanan atau memahami informasi yang tersedia." data-solution="Pelajari istilah dasar gizi sedikit demi sedikit dan gunakan sumber edukasi yang tepercaya. Hubungkan teori dengan menu nyata di sekolah.">
+            <span class="code">ISSUE 06</span><h3>Kurang memahami informasi gizi</h3><div class="tap">↗ BUKA ANALISIS</div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="akar">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <div class="kicker">03 // 7 KAIH ROOT ANALYSIS</div>
+            <h2>Dari Akar Masalah ke Perubahan</h2>
+          </div>
+          <p>Lembar diskusi memetakan persoalan makanan sehat melalui tujuh kategori: manusia, lingkungan, edukasi, fasilitas, kondisi, kebijakan, serta inovasi.</p>
+        </div>
+
+        <div class="flow">
+          <div class="flow-step reveal"><span class="flow-no">STAGE 01</span><h3>MASALAH</h3><p>Kebiasaan makan sehat dan bergizi masih rendah pada sebagian siswa.</p></div>
+          <div class="flow-step reveal"><span class="flow-no">STAGE 02</span><h3>AKAR MASALAH</h3><p>Pengetahuan, keterjangkauan, lingkungan, fasilitas, aturan, dan kebiasaan saling berpengaruh.</p></div>
+          <div class="flow-step reveal"><span class="flow-no">STAGE 03</span><h3>DAMPAK</h3><p>Pilihan makanan menjadi kurang beragam dan dukungan terhadap energi belajar belum optimal.</p></div>
+          <div class="flow-step reveal"><span class="flow-no">STAGE 04</span><h3>SOLUSI</h3><p>Edukasi kontekstual, kantin sehat, fasilitas pendukung, dan pilihan terjangkau.</p></div>
+          <div class="flow-step reveal"><span class="flow-no">STAGE 05</span><h3>AKSI</h3><p>Kampanye, kolaborasi, penyediaan fasilitas, serta monitoring dan evaluasi.</p></div>
+        </div>
+
+        <div class="root-grid">
+          <article class="root reveal"><span class="rnum">01 // MANUSIA</span><div class="emoji">🧑‍🎓</div><b>Perilaku</b><p>Jajan tinggi gula/lemak, makanan instan, dan melewatkan sarapan.</p></article>
+          <article class="root reveal"><span class="rnum">02 // LINGKUNGAN</span><div class="emoji">🌿</div><b>Lingkungan &amp; Budaya</b><p>Menu sehat terbatas dan budaya makan cepat.</p></article>
+          <article class="root reveal"><span class="rnum">03 // EDUKASI</span><div class="emoji">📖</div><b>Metode</b><p>Edukasi gizi perlu lebih interaktif, kontekstual, dan konsisten.</p></article>
+          <article class="root reveal"><span class="rnum">04 // FASILITAS</span><div class="emoji">🏫</div><b>Sarana</b><p>Tempat makan, air minum, dan fasilitas pendukung perlu diperhatikan.</p></article>
+          <article class="root reveal"><span class="rnum">05 // KONDISI</span><div class="emoji">💳</div><b>Kebutuhan</b><p>Waktu dan uang saku memengaruhi pilihan makanan.</p></article>
+          <article class="root reveal"><span class="rnum">06 // ATURAN</span><div class="emoji">⚖️</div><b>Kebijakan</b><p>Aturan kantin sehat dan pengawasan dapat diperkuat.</p></article>
+          <article class="root reveal"><span class="rnum">07 // INOVASI</span><div class="emoji">🚀</div><b>Kreativitas</b><p>Program menarik dapat membantu membangun kebiasaan positif.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="solusi">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <div class="kicker">04 // MISSION OBJECTIVES</div>
+            <h2>Solusi yang Bisa Dilakukan</h2>
+          </div>
+          <p>Targetnya bukan perubahan ekstrem. Pilih langkah yang masuk akal, bisa dilakukan berulang, dan sesuai kondisi masing-masing.</p>
+        </div>
+
+        <div class="mission">
+          <div class="mission-board reveal">
+            <div class="mission-id">MISSION NTRX-07</div>
+            <h3>BUILD A HEALTHIER LOADOUT</h3>
+            <p>Gunakan prinsip sederhana: beragam, seimbang, aman, bersih, dan sesuai kebutuhan serta kemampuan.</p>
+            <div class="progress-line"><i></i></div>
+            <div style="font:700 10px Rajdhani;color:#647970;letter-spacing:1px">OBJECTIVE STATUS <span style="float:right;color:var(--green)">READY</span></div>
+          </div>
+
+          <div class="objectives">
+            <div class="objective reveal"><div class="check">✓</div><div><b>Sarapan sederhana</b><span>Rencanakan menu praktis yang tetap memiliki sumber energi dan protein.</span></div></div>
+            <div class="objective reveal"><div class="check">✓</div><div><b>Utamakan air putih</b><span>Jadikan air putih pilihan utama dan perhatikan frekuensi minuman manis.</span></div></div>
+            <div class="objective reveal"><div class="check">✓</div><div><b>Tambah sayur &amp; buah</b><span>Mulai dari pilihan yang paling mudah ditemukan dan disukai.</span></div></div>
+            <div class="objective reveal"><div class="check">✓</div><div><b>Pilih sumber protein</b><span>Telur, ikan, ayam, tahu, tempe, dan kacang-kacangan bisa menjadi pilihan.</span></div></div>
+            <div class="objective reveal"><div class="check">✓</div><div><b>Perhatikan kebersihan &amp; keamanan</b><span>Pilih makanan yang bersih, aman, matang sesuai kebutuhan, dan ditangani dengan baik.</span></div></div>
+            <div class="objective reveal"><div class="check">✓</div><div><b>Sesuaikan uang saku</b><span>Makan bergizi tidak harus mahal. Kombinasi sederhana juga dapat membantu.</span></div></div>
+            <div class="objective reveal"><div class="check">✓</div><div><b>Baca informasi jika tersedia</b><span>Gunakan label atau informasi menu untuk membantu membandingkan pilihan.</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pihak">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <div class="kicker">05 // TEAM SUPPORT</div>
+            <h2>Ahli Gizi, SPPG, Sekolah, &amp; Keluarga</h2>
+          </div>
+          <p>Dari hasil wawancara pada lembar diskusi, pemenuhan gizi bukan tugas satu pihak. Dukungan lingkungan membuat kebiasaan lebih mudah diterapkan.</p>
+        </div>
+
+        <div class="people-grid">
+          <article class="card people-card reveal">
+            <div class="role">ROLE 01 // EXPERT</div><h3>AHLI GIZI</h3>
+            <ul>
+              <li>Memberikan edukasi gizi yang sesuai kebutuhan.</li>
+              <li>Membantu menyusun atau mengevaluasi menu.</li>
+              <li>Mempertimbangkan kecukupan gizi serta keamanan makanan.</li>
+            </ul>
+          </article>
+          <article class="card people-card reveal">
+            <div class="role">ROLE 02 // NUTRITION SERVICE</div><h3>SPPG</h3>
+            <ul>
+              <li>SPPG adalah Satuan Pelayanan Pemenuhan Gizi dalam konteks pelaksanaan program Makan Bergizi Gratis.</li>
+              <li>Kualitas bahan, kebersihan, keamanan, pengolahan, dan distribusi perlu menjadi perhatian.</li>
+              <li>Pelaksanaan perlu mengikuti ketentuan dan standar yang berlaku.</li>
+            </ul>
+          </article>
+          <article class="card people-card reveal">
+            <div class="role">ROLE 03 // SCHOOL BASE</div><h3>KANTIN SEKOLAH</h3>
+            <ul>
+              <li>Menyediakan pilihan yang lebih beragam, bersih, aman, dan terjangkau.</li>
+              <li>Mendukung akses air minum dan kebiasaan makan yang lebih baik.</li>
+              <li>Dapat berkolaborasi dengan siswa dan sekolah.</li>
+            </ul>
+          </article>
+          <article class="card people-card reveal">
+            <div class="role">ROLE 04 // DAILY PLAYER</div><h3>KELUARGA &amp; SISWA</h3>
+            <ul>
+              <li>Keluarga membantu membentuk kebiasaan dari rumah.</li>
+              <li>Siswa menerapkan pilihan sehat dalam keseharian.</li>
+              <li>Perubahan kecil yang konsisten lebih realistis daripada target sempurna.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="check">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <div class="kicker">06 // SELF CHECK</div>
+            <h2>Apakah Anda Sudah Memperhatikan Gizi?</h2>
+          </div>
+          <p>Ini bukan quiz. Centang hal yang sudah Anda perhatikan dalam pilihan makan Anda, lalu lihat status kebiasaan saat ini.</p>
+        </div>
+
+        <div class="check-layout">
+          <div class="status reveal">
+            <div class="tiny">PERSONAL STATUS</div>
+            <div class="count"><span id="count">0</span><small>/ 8</small></div>
+            <p id="motivation">Belum ada checklist. Mulai dari satu kebiasaan kecil.</p>
+            <div class="meter"><i id="meter"></i></div>
+            <div style="margin-top:12px;font:700 10px Rajdhani;color:#667970;letter-spacing:1px"><span id="percent">0%</span> AWARENESS</div>
+          </div>
+
+          <div class="checklist">
+            <label class="check-item reveal"><input type="checkbox"><span class="fake-check">✓</span><span>Ada sumber karbohidrat</span></label>
+            <label class="check-item reveal"><input type="checkbox"><span class="fake-check">✓</span><span>Ada sumber protein</span></label>
+            <label class="check-item reveal"><input type="checkbox"><span class="fake-check">✓</span><span>Ada sayur</span></label>
+            <label class="check-item reveal"><input type="checkbox"><span class="fake-check">✓</span><span>Ada buah</span></label>
+            <label class="check-item reveal"><input type="checkbox"><span class="fake-check">✓</span><span>Memilih air putih</span></label>
+            <label class="check-item reveal"><input type="checkbox"><span class="fake-check">✓</span><span>Memperhatikan kebersihan makanan</span></label>
+            <label class="check-item reveal"><input type="checkbox"><span class="fake-check">✓</span><span>Memperhatikan keamanan makanan</span></label>
+            <label class="check-item reveal"><input type="checkbox"><span class="fake-check">✓</span><span>Tidak berlebihan mengonsumsi gula, garam, dan lemak</span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="kaih">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <div class="kicker">07 // DAILY SYSTEM</div>
+            <h2>7 KAIH</h2>
+          </div>
+          <p>Dalam lembar diskusi, Makan Sehat dan Bergizi menjadi salah satu dari tujuh kebiasaan yang saling mendukung kehidupan sehari-hari.</p>
+        </div>
+
+        <div class="kaih-wrap reveal">
+          <div class="kaih-grid">
+            <article class="kaih"><span class="num">01</span><div class="kicon">🌅</div><b>Bangun Pagi</b><span>Memulai hari dengan teratur.</span></article>
+            <article class="kaih"><span class="num">02</span><div class="kicon">🤲</div><b>Beribadah</b><span>Membangun kebiasaan spiritual.</span></article>
+            <article class="kaih"><span class="num">03</span><div class="kicon">🏃</div><b>Berolahraga</b><span>Menjaga tubuh tetap aktif.</span></article>
+            <article class="kaih active"><span class="num">04 // FOCUS</span><div class="kicon">🍽️</div><b>Makan Sehat &amp; Bergizi</b><span>Beragam, seimbang, aman, dan sesuai kebutuhan.</span></article>
+            <article class="kaih"><span class="num">05</span><div class="kicon">📚</div><b>Gemar Belajar</b><span>Mengembangkan pengetahuan dan keterampilan.</span></article>
+            <article class="kaih"><span class="num">06</span><div class="kicon">🤝</div><b>Bermasyarakat</b><span>Membangun kepedulian dan kerja sama.</span></article>
+            <article class="kaih"><span class="num">07</span><div class="kicon">🌙</div><b>Tidur Cepat</b><span>Memberi waktu istirahat yang cukup.</span></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="aksi">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <div class="kicker">08 // SOCIAL ACTION</div>
+            <h2>Rancangan Aksi Sosial</h2>
+          </div>
+          <p>Bagian ini mengambil inti rencana aksi pada lembar: edukasi, perbaikan kantin, fasilitas pendukung, kampanye kreatif, serta monitoring.</p>
+        </div>
+
+        <div class="action-grid">
+          <article class="action reveal"><span class="num">AKSI 01</span><div class="aicon">🍴</div><h3>Edukasi &amp; Kampanye</h3><p>Kelas gizi interaktif, poster “Isi Piringku”, dan tantangan 7 hari sarapan sehat.</p></article>
+          <article class="action reveal"><span class="num">AKSI 02</span><div class="aicon">🏪</div><h3>Perbaikan Kantin</h3><p>Kolaborasi kantin sehat, menu bergizi dengan harga terjangkau, dan label gizi pada menu.</p></article>
+          <article class="action reveal"><span class="num">AKSI 03</span><div class="aicon">💧</div><h3>Fasilitas Pendukung</h3><p>Penyediaan akses air minum, tempat makan yang nyaman, dan tempat cuci tangan.</p></article>
+          <article class="action reveal"><span class="num">AKSI 04</span><div class="aicon">📣</div><h3>Kampanye Kreatif</h3><p>Video pendek, reels, infografis “Pilih Sehat, Pasti Hebat”, serta Hari Makan Sehat.</p></article>
+          <article class="action reveal"><span class="num">AKSI 05</span><div class="aicon">📊</div><h3>Monitoring</h3><p>Survei kebiasaan makan, catatan perubahan, evaluasi bulanan, lalu perbaikan program.</p></article>
+        </div>
+
+        <div class="interview" style="margin-top:20px">
+          <div class="quote-board reveal">
+            <div class="quote-mark">“</div>
+            <blockquote>Makanan bergizi bukan sekadar membuat kenyang. Keberagaman makanan, kandungan zat gizi, kebersihan, keamanan, dan dukungan lingkungan ikut menentukan pilihan yang lebih baik.</blockquote>
+            <div class="source">INTI WAWANCARA &amp; ANALISIS // LEMBAR DISKUSI 7 KAIH</div>
+          </div>
+          <div class="insights">
+            <div class="insight reveal"><b>Energi &amp; Fokus</b><p>Pola makan yang baik membantu mendukung energi dan aktivitas belajar, tanpa menjanjikan efek medis berlebihan.</p></div>
+            <div class="insight reveal"><b>Kesadaran Sejak Dini</b><p>Kebiasaan makan dibentuk melalui pengetahuan, pilihan sehari-hari, dan dukungan lingkungan.</p></div>
+            <div class="insight reveal"><b>Semua Pihak Berperan</b><p>Pemerintah/SPPG, sekolah, keluarga, siswa, dan tenaga terkait dapat saling mendukung pemenuhan gizi.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="final">
+      <div class="wrap">
+        <div class="kicker">MISSION COMPLETE // NUTRIX</div>
+        <h2>Kesehatan tidak dibangun dalam satu hari.<br>Ia dibentuk dari pilihan-pilihan kecil yang Anda lakukan setiap hari.</h2>
+        <p>Mulai dari satu pilihan. Mulai dari satu kebiasaan. Mulai dari diri sendiri.</p>
+        <div class="mini">XI-E9 • SMA NEGERI 2 BANJARMASIN</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>NUTRIX // 7 KAIH SCHOOL PROJECT</span>
+      <span>XI-E9 • SMA NEGERI 2 BANJARMASIN</span>
+      <span>MAKAN SEHAT &amp; BERGIZI</span>
+    </div>
+  </footer>
+
+  <div class="modal" id="problemModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <button class="close" id="modalClose" aria-label="Tutup">ESC ×</button>
+      <div class="modal-code">ISSUE ANALYSIS // NUTRIX</div>
+      <h3 id="modalTitle">Masalah</h3>
+      <div class="solution-list">
+        <div class="solution-row"><b>PENYEBAB</b><span id="modalCause"></span></div>
+        <div class="solution-row"><b>DAMPAK SECARA UMUM</b><span id="modalImpact"></span></div>
+        <div class="solution-row"><b>SOLUSI PRAKTIS</b><span id="modalSolution"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Boot screen
+    window.addEventListener("load", () => {
+      setTimeout(() => document.getElementById("boot").classList.add("hide"), 850);
+    });
+
+    // Mobile navigation
+    const navToggle = document.getElementById("navToggle");
+    const navLinks = document.getElementById("navLinks");
+    navToggle.addEventListener("click", () => navLinks.classList.toggle("open"));
+    navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => navLinks.classList.remove("open")));
+
+    // Scroll reveal
+    const revealObserver = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add("visible");
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.12});
+    document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
+
+    // Active navigation
+    const sections = [...document.querySelectorAll("main section[id]")];
+    const links = [...document.querySelectorAll(".nav-links a")];
+    const activeObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          links.forEach(l => l.classList.toggle("active", l.getAttribute("href") === "#" + entry.target.id));
+        }
+      });
+    }, {rootMargin:"-35% 0px -55% 0px"});
+    sections.forEach(s => activeObserver.observe(s));
+
+    // Problem modal
+    const modal = document.getElementById("problemModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalCause = document.getElementById("modalCause");
+    const modalImpact = document.getElementById("modalImpact");
+    const modalSolution = document.getElementById("modalSolution");
+    const closeModal = () => modal.classList.remove("show");
+
+    document.querySelectorAll(".problem").forEach(card => {
+      card.addEventListener("click", () => {
+        modalTitle.textContent = card.dataset.title;
+        modalCause.textContent = card.dataset.cause;
+        modalImpact.textContent = card.dataset.impact;
+        modalSolution.textContent = card.dataset.solution;
+        modal.classList.add("show");
+      });
+    });
+    document.getElementById("modalClose").addEventListener("click", closeModal);
+    modal.addEventListener("click", e => { if(e.target === modal) closeModal(); });
+    document.addEventListener("keydown", e => { if(e.key === "Escape") closeModal(); });
+
+    // Interactive checklist
+    const checks = [...document.querySelectorAll(".check-item input")];
+    const countEl = document.getElementById("count");
+    const percentEl = document.getElementById("percent");
+    const meter = document.getElementById("meter");
+    const motivation = document.getElementById("motivation");
+
+    function updateChecklist(){
+      const count = checks.filter(c => c.checked).length;
+      const percent = Math.round(count / checks.length * 100);
+      countEl.textContent = count;
+      percentEl.textContent = percent + "%";
+      meter.style.width = percent + "%";
+
+      if(count === 0) motivation.textContent = "Belum ada checklist. Mulai dari satu kebiasaan kecil.";
+      else if(count <= 2) motivation.textContent = "Bagus, Anda sudah mulai. Pilih satu kebiasaan lagi yang paling realistis untuk diterapkan.";
+      else if(count <= 4) motivation.textContent = "Mulai terbentuk. Pertahankan yang sudah baik dan tambahkan variasi secara bertahap.";
+      else if(count <= 6) motivation.textContent = "Mantap. Anda sudah memperhatikan banyak aspek penting—tetap konsisten dan sesuaikan dengan kebutuhan.";
+      else if(count === 7) motivation.textContent = "Hampir lengkap. Jadikan perhatian terhadap gizi sebagai bagian dari kebiasaan sehari-hari.";
+      else motivation.textContent = "Semua aspek sudah diperhatikan. Tetap fleksibel, realistis, dan terus belajar.";
+    }
+    checks.forEach(c => c.addEventListener("change", updateChecklist));
+    updateChecklist();
+
+    // Smooth focus behavior for buttons/keyboard
+    document.querySelectorAll(".btn").forEach(btn => {
+      btn.addEventListener("click", () => document.body.classList.add("navigated"));
+    });
+  </script>
+</body>
+</html>
